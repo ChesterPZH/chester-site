@@ -29,6 +29,40 @@
   </script>
   <link rel="stylesheet" href="assets/css/fonts.css" media="all" />
   <link rel="stylesheet" href="assets/css/inline-styles.css" />
+  <style>
+    /* 确保页面内容始终可见的样式 */
+    body {
+      visibility: visible !important;
+      opacity: 1 !important;
+      background: linear-gradient(to right, rgba(0, 0, 0, 1), rgba(0, 0, 0, 1)) !important;
+    }
+    
+    /* 确保文字颜色为白色 */
+    .page-content__component[data-type="text"] {
+      color: rgba(255, 255, 255, 1) !important;
+    }
+    
+    /* 确保链接可见 */
+    .str-link {
+      color: rgba(255, 255, 255, 1) !important;
+    }
+    
+    /* 强制显示页面内容 */
+    .page-content {
+      visibility: visible !important;
+      opacity: 1 !important;
+    }
+    
+    .page-content__inner {
+      visibility: visible !important;
+      opacity: 1 !important;
+    }
+    
+    /* 防止字体加载问题导致的隐藏 */
+    * {
+      visibility: visible !important;
+    }
+  </style>
 </head>
 
 <body>
@@ -175,7 +209,19 @@
   <script type="text/javascript">
     console.log('Iframe script executed');
 
-
+    // 强制显示页面内容，不依赖字体加载
+    document.addEventListener('DOMContentLoaded', function() {
+      document.body.classList.add('siter-ready');
+      document.body.style.visibility = 'visible';
+      document.body.style.opacity = '1';
+      
+      // 确保页面内容可见
+      setTimeout(function() {
+        document.body.classList.add('siter-ready');
+        document.body.style.visibility = 'visible';
+        document.body.style.opacity = '1';
+      }, 100);
+    });
 
     function updateFixedElementsZIndex() {
       const allElements = document.querySelectorAll('*');
