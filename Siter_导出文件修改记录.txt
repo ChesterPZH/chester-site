@@ -1,0 +1,145 @@
+# Siter.io 导出文件修改记录
+# 修改日期：2025年1月17日
+# 目标：清理Siter.io广告，修复GitHub Pages链接，优化网站结构
+
+## 一、删除广告内容
+
+### 1.1 删除Siter.io推广横幅
+- 位置：所有页面底部
+- 代码特征：<div class="promotion original promotion_left" data-url="https://siter.io">
+- 包含内容：Siter.io logo SVG图标 + "Built with Siter.io" 文字 + 推广列表
+- 操作：完全删除整个promotion区块
+
+### 1.2 删除无用的Meta标签
+- 删除所有og:前缀的Open Graph标签
+- 删除所有twitter:前缀的Twitter Card标签
+- 删除包含siter.io域名的meta标签
+
+### 1.3 删除favicon相关引用
+- 删除所有nofavicon-3335ed667...png的link标签引用
+- 包括apple-touch-icon和icon等各种尺寸的引用
+- 物理删除nofavicon图片文件
+
+## 二、修复页面链接
+
+### 2.1 内部导航链接修改
+原始链接格式：href="/页面名"
+修改为：href="/仓库名/页面名/"
+
+具体修改：
+- /home → /chester_site/home/
+- /research → /chester_site/research/
+- /projects → /chester_site/projects/
+- /craft2 → /chester_site/craft2/
+- /about → /chester_site/about/
+
+### 2.2 同时更新data-cke-saved-href属性
+确保Siter编辑器保存的链接也同步更新
+
+### 2.3 注意事项
+- 仓库名从chester-site改为chester_site时，需要全局替换链接
+- 使用sed命令批量替换：sed -i '' 's|/chester-site/|/chester_site/|g'
+
+## 三、删除无用文件
+
+### 3.1 删除的图片文件
+- 所有目录下的nofavicon-3335ed667ddddf5d7b8aeb7fbad6fa201a1b165f261a840a3f2d87e05b736750.png
+
+### 3.2 删除的脚本文件
+- home/assets/js/?format=js （无效的文件名）
+
+### 3.3 删除的临时文件
+- .DS_Store 文件（macOS系统文件）
+- 各种临时和缓存文件
+
+## 四、创建必要文件
+
+### 4.1 创建.nojekyll文件
+- 位置：根目录
+- 作用：防止GitHub Pages的Jekyll处理器过滤assets文件夹
+- 内容：空文件即可
+
+## 五、修复JavaScript错误
+
+### 5.1 箭头函数语法错误
+原始代码：(element) = & gt; 
+修正为：(element) => 
+
+### 5.2 删除错误的脚本引用
+删除：<script src="assets/js/?format=js"></script>
+
+### 5.3 添加强制显示逻辑
+在body标签中添加class="siter-ready"确保页面内容立即可见
+
+## 六、批量处理脚本示例
+
+### 6.1 Python脚本清理（已删除，仅供参考）
+```python
+import os, re
+
+# 删除nofavicon引用
+nofavicon_pattern = r'\s*<link[^>]*nofavicon[^>]*>\s*'
+
+# 删除promotion广告
+promotion_pattern = r'<div class="promotion original[^>]*>.*?</div>\s*</div>'
+
+# 修复链接
+link_replacements = {
+    'href="/页面名"': 'href="/仓库名/页面名/"'
+}
+```
+
+### 6.2 命令行批量替换
+```bash
+# 批量替换链接
+find . -name "*.html" -exec sed -i '' 's|/chester-site/|/chester_site/|g' {} \;
+
+# 删除特定文件
+find . -name "*nofavicon*" -type f -delete
+find . -name "*format=js*" -type f -delete
+```
+
+## 七、Git操作记录
+
+### 7.1 提交历史
+1. "Fix: Remove invalid JavaScript file reference that caused black screen issue"
+2. "Clean up Siter.io ads: Remove nofavicon links, promotion banners, and fix page navigation links for GitHub Pages"
+3. "Remove unused nofavicon images and invalid JS files"
+4. "Update internal links: Change repo name from chester-site to chester_site"
+
+### 7.2 更新remote URL
+```bash
+git remote set-url origin https://github.com/ChesterPZH/chester_site.git
+```
+
+## 八、最终验证清单
+
+- [ ] 所有页面无Siter.io广告
+- [ ] 页面间导航链接正确
+- [ ] 无404错误的资源引用
+- [ ] JavaScript正常执行
+- [ ] GitHub Pages正常部署
+- [ ] 所有页面正常显示（非黑屏）
+
+## 九、注意事项
+
+### 9.1 未来更新步骤
+1. 从Siter.io重新导出HTML文件
+2. 按照本记录重新执行清理步骤
+3. 特别注意检查仓库名和链接路径
+4. 测试所有页面导航功能
+
+### 9.2 常见问题
+- 页面黑屏：通常是JavaScript错误或字体加载失败
+- 链接404：检查GitHub Pages仓库名和路径是否匹配
+- 样式缺失：确保.nojekyll文件存在
+
+### 9.3 GitHub Pages设置
+- 部署来源：main分支根目录
+- 自定义域名：可选配置
+- 强制HTTPS：建议开启
+
+---
+最后更新：2025年1月17日
+维护者：Claude Assistant
+网站地址：https://chesterpzh.github.io/chester_site/home/ 
